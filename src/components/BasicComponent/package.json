@@ -1,6 +1,0 @@
-{
-  "name": "BasicComponent",
-  "version": "0.0.0",
-  "private": true,
-  "main": "./BasicComponent.jsx"
-}

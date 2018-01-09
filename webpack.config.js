@@ -1,15 +1,25 @@
-var fs = require('fs');
-
-// The general template is fine to use as a config so put that in if it is missing
-var configFile = './src/config/general.js';
-var configTemplate = './src/config/templates/general.js';
-if(!fs.existsSync(configFile) && fs.existsSync(configTemplate)) {
-	fs.createReadStream(configTemplate).pipe(fs.createWriteStream(configFile));
-}
-
-
-var appConfig = require('./webpack-config/webpack.app.config');
-var serverConfig = require('./webpack-config/webpack.server.config');
-
-module.exports = [appConfig, serverConfig];
-
+var webpack = require('webpack');
+module.exports = {
+    entry: [
+      'webpack/hot/only-dev-server',
+      "./js/app.js"
+    ],
+    output: {
+        path: './build',
+        filename: "bundle.js"
+    },
+    module: {
+        loaders: [
+            { test: /\.js?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
+            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
+            { test: /\.css$/, loader: "style!css" },
+            {test: /\.less/,loader: 'style-loader!css-loader!less-loader'}
+        ]
+    },
+    resolve:{
+        extensions:['','.js','.json']
+    },
+    plugins: [
+      new webpack.NoErrorsPlugin()
+    ]
+};
