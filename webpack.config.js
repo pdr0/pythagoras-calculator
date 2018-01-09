@@ -1,25 +1,32 @@
-var webpack = require('webpack');
+const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
+
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const htmlWebpackPluginConfig = new HtmlWebpackPlugin({
+    template: './src/index.html',
+    filename: 'index.html',
+    inject: 'body'
+})
 module.exports = {
-    entry: [
-      'webpack/hot/only-dev-server',
-      "./js/app.js"
-    ],
+    entry: './src',
+    // output
     output: {
-        path: './build',
-        filename: "bundle.js"
+        path: path.join(__dirname, 'build'),
+        filename: 'bundle.js'
     },
     module: {
         loaders: [
-            { test: /\.js?$/, loaders: ['react-hot', 'babel'], exclude: /node_modules/ },
-            { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader'},
-            { test: /\.css$/, loader: "style!css" },
-            {test: /\.less/,loader: 'style-loader!css-loader!less-loader'}
+            {test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/},
+            {test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/}
         ]
     },
-    resolve:{
-        extensions:['','.js','.json']
-    },
-    plugins: [
-      new webpack.NoErrorsPlugin()
-    ]
-};
+
+    plugins: [htmlWebpackPluginConfig, new CopyPlugin([{ from: 'src', to: 'build' }])],
+    devtool: 'source-map',
+
+    devServer: {
+        contentBase: path.join(__dirname, 'src'),
+        compress: true,
+        historyApiFallback: true
+    }
+}
