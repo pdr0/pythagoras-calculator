@@ -1,22 +1,9 @@
-let nextTodoId = 0
-export const addTodo = text => {
-    return {
-        type: 'ADD_TODO',
-        id: nextTodoId++,
-        text
-    }
-}
+import addTodo from './addTodo';
+import setVisibilityFilter from './setVisibilityFilter';
+import toggleTodo from './toggleTodo';
 
-export const setVisibilityFilter = filter => {
-    return {
-        type: 'SET_VISIBILITY_FILTER',
-        filter
-    }
-}
-
-export const toggleTodo = id => {
-    return {
-        type: 'TOGGLE_TODO',
-        id
-    }
-}
+export {
+    addTodo,
+    setVisibilityFilter,
+    toggleTodo
+};
